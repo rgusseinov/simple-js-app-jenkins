@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-account') // ✅ Use correct Docker Hub credentials
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-account') // ✅ Docker Hub credentials
         IMAGE_NAME = 'ruslan0688/simple-js-app-jenkins' // Change to your Docker Hub repo
     }
 
@@ -14,10 +14,24 @@ pipeline {
             }
         }
 
+        stage('Extract Commit Hash') {
+            steps {
+                script {
+                    COMMIT_HASH = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+                    APP_VERSION = "app_dev_${COMMIT_HASH}"
+                    echo "Using version: $APP_VERSION"
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
-                echo 'Building Docker image...'
-                sh 'docker build -t $IMAGE_NAME:latest .'
+                script {
+                    echo "Building Docker image with tag: $APP_VERSION..."
+                    sh """
+                        docker build -t $IMAGE_NAME:$APP_VERSION -t $IMAGE_NAME:latest .
+                    """
+                }
             }
         }
 
@@ -33,15 +47,20 @@ pipeline {
 
         stage('Push Docker Image to Docker Hub') {
             steps {
-                echo 'Pushing image to Docker Hub...'
-                sh 'docker push $IMAGE_NAME:latest'
+                script {
+                    echo "Pushing image with tags: $APP_VERSION, latest..."
+                    sh """
+                        docker push $IMAGE_NAME:$APP_VERSION
+                        docker push $IMAGE_NAME:latest
+                    """
+                }
             }
         }
     }
 
     post {
         success {
-            echo '🚀 Deployment Successful!'
+            echo "🚀 Deployment Successful! Image pushed with version: $APP_VERSION"
         }
         failure {
             echo '❌ Deployment Failed!'
