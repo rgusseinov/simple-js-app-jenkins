@@ -5,7 +5,7 @@ FROM nginx:latest
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy the static website files into the correct Nginx directory
-COPY . /usr/share/nginx/html
+COPY app/ /usr/share/nginx/html/
 
 # Expose port 80 for HTTP traffic
 EXPOSE 80
