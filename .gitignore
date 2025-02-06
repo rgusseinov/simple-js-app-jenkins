@@ -1,0 +1,17 @@
+.idea/
+.vscode/
+node_modules/
+build/
+dist/
+tmp/
+temp/
+.env
+vault_password
+**/.env
+.pem
+.npm/
+.cache/
+*.sqlite
+db/
+terraform/
+app/test/templates_c/
