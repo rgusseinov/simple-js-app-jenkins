@@ -1,3 +1,4 @@
+# Use the official Nginx base image
 FROM nginx:latest
 
 # Remove default Nginx static files
