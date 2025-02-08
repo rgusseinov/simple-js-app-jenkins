@@ -3,7 +3,7 @@
   become: true
   vars:
     docker_image: "ruslan0688/simple-js-app-jenkins"
-    image_version: "app_dev_c50c42b"
+    image_version: "app_dev_45e29c9"
     container_name: "simple-js-app"
     exposed_port: "81"
 
@@ -27,5 +27,4 @@
       shell: |
         docker run -d --name {{ container_name }} \
         -p 81:80 \
-        -v /usr/share/nginx/html:/usr/share/nginx/html \
         {{ docker_image }}:{{ image_version }}
