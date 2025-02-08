@@ -3,7 +3,7 @@ FROM php:8.2-fpm
 
 # Install required packages and PHP extensions
 RUN apt-get update && apt-get install -y nginx \
-    && docker-php-ext-install pdo pdo_mysql \
+    && docker-php-ext-install pdo pdo_mysql mysqli \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
