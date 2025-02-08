@@ -23,4 +23,4 @@ COPY config/nginx.conf /etc/nginx/nginx.conf
 # Expose port 80
 EXPOSE 80
 
-CMD ["bash", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+CMD ["/bin/bash", "-c", "/usr/local/sbin/php-fpm -D && nginx -g 'daemon off;'"]
