@@ -1,14 +1,27 @@
-# Use the official Nginx base image
-FROM nginx:latest
+# Use PHP and Nginx
+FROM php:8.2-fpm
 
-# Remove default Nginx static files
+# Install Nginx
+RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory
+WORKDIR /usr/share/nginx/html/
+
+# Remove default index files
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copy the static website files into the correct Nginx directory
+# Copy app files into container
 COPY app/. /usr/share/nginx/html/
 
-# Expose port 80 for HTTP traffic
+# Set permissions (fix 403 error)
+RUN chown -R www-data:www-data /usr/share/nginx/html/ \
+    && chmod -R 755 /usr/share/nginx/html/
+
+# Copy custom Nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80
 EXPOSE 80
 
-# Start Nginx in the foreground
-CMD ["nginx", "-g", "daemon off;"]
+# Start both Nginx & PHP-FPM
+CMD service php-fpm start && nginx -g "daemon off;"
