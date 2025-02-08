@@ -1,8 +1,10 @@
 # Use PHP and Nginx
 FROM php:8.2-fpm
 
-# Install Nginx
-RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+# Install required packages and PHP extensions
+RUN apt-get update && apt-get install -y nginx \
+    && docker-php-ext-install pdo pdo_mysql \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /usr/share/nginx/html/
@@ -23,4 +25,5 @@ COPY config/nginx.conf /etc/nginx/nginx.conf
 # Expose port 80
 EXPOSE 80
 
+# Start PHP-FPM and Nginx
 CMD ["/bin/bash", "-c", "/usr/local/sbin/php-fpm -D && nginx -g 'daemon off;'"]
