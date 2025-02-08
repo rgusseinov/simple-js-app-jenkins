@@ -18,7 +18,7 @@ RUN chown -R www-data:www-data /usr/share/nginx/html/ \
     && chmod -R 755 /usr/share/nginx/html/
 
 # Copy custom Nginx config
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY config/nginx.conf /etc/nginx/nginx.conf
 
 # Expose port 80
 EXPOSE 80
