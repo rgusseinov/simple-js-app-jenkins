@@ -3,7 +3,7 @@
   become: true
   vars:
     docker_image: "ruslan0688/simple-js-app-jenkins"
-    image_version: "app_dev_f0897d3"
+    image_version: "app_dev_dc18cd4"
     container_name: "simple-js-app"
     exposed_port: "81"
 
