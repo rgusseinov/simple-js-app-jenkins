@@ -12,9 +12,9 @@ if (file_exists($envFile)) {
 }
 
 $host = getenv('DB_HOST') ?: '127.0.0.1';
-$dbname = getenv('DB_NAME');
-$username = getenv('DB_USER');
-$password = getenv('DB_PASS');
+$dbname = getenv('DB_DATABASE');
+$username = getenv('DB_USERNAME');
+$password = getenv('DB_PASSWORD');
 
 // Connect to MySQL
 $conn = new mysqli($host, $username, $password, $dbname);

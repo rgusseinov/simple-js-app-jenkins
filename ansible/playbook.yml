@@ -3,9 +3,10 @@
   become: true
   vars:
     docker_image: "ruslan0688/simple-js-app-jenkins"
-    image_version: "app_dev_c6c9c79"
+    image_version: "app_dev_8d03eb2"
     container_name: "simple-js-app"
     exposed_port: "80"
+    env_file_path: "/home/ec2-user/.env"
 
   tasks:
     - name: Stop and remove existing container (if running)
@@ -23,8 +24,15 @@
     - name: Pull new Docker image
       shell: "docker pull {{ docker_image }}:{{ image_version }}"
 
+    - name: create .env file
+      ansible.builtin.template:
+        src: templates/.env.j2
+        dest: .env
+        mode: "0644"
+
     - name: Run new container
       shell: |
         docker run -d --name {{ container_name }} \
+        --env-file {{ env_file_path }} \
         -p 80:80 \
         {{ docker_image }}:{{ image_version }}
