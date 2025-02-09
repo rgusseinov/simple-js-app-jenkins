@@ -32,10 +32,10 @@ inventory:
 	make -C ansible inventory
 
 encrypt:
-	ansible-vault encrypt --ask-vault-password ansible/group_vars/webservers/vault.yml
+	ansible-vault encrypt --ask-vault-password ansible/group_vars/ec2_instance/vault.yml
 
 decrypt:
-	ansible-vault decrypt --ask-vault-password ansible/group_vars/webservers/vault.yml
+	ansible-vault decrypt --ask-vault-password ansible/group_vars/ec2_instance/vault.yml
 
 init:
 	make -C terraform init

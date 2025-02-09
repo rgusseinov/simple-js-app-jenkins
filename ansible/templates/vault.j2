@@ -1,4 +1,3 @@
-vault_db_connection: "{{ ansible_vars.db_host.value }}"
 vault_db_database: "{{ ansible_vars.db_name.value }}"
 vault_db_username: "{{ ansible_vars.db_username.value }}"
 vault_db_port: "{{ ansible_vars.db_port.value | default('6432') }}"

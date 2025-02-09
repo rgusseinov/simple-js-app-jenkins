@@ -4,6 +4,7 @@ FROM php:8.2-apache
 # Install required PHP extensions
 RUN apt-get update && apt-get install -y \
     libonig-dev \
+    vim \
     && docker-php-ext-install pdo pdo_mysql mysqli \
     && rm -rf /var/lib/apt/lists/*
 
