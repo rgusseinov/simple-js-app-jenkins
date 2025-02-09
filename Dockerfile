@@ -1,29 +1,30 @@
-# Use PHP and Nginx
-FROM php:8.2-fpm
+# Use PHP 8.2 with Apache
+FROM php:8.2-apache
 
-# Install required packages and PHP extensions
-RUN apt-get update && apt-get install -y nginx \
+# Install required PHP extensions
+RUN apt-get update && apt-get install -y \
+    libonig-dev \
     && docker-php-ext-install pdo pdo_mysql mysqli \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
-WORKDIR /usr/share/nginx/html/
+WORKDIR /var/www/html/
 
 # Remove default index files
-RUN rm -rf /usr/share/nginx/html/*
+RUN rm -rf /var/www/html/*
 
 # Copy app files into container
-COPY app/. /usr/share/nginx/html/
+COPY app/. /var/www/html/
 
 # Set permissions (fix 403 error)
-RUN chown -R www-data:www-data /usr/share/nginx/html/ \
-    && chmod -R 755 /usr/share/nginx/html/
+RUN chown -R www-data:www-data /var/www/html/ \
+    && chmod -R 755 /var/www/html/
 
-# Copy custom Nginx config
-COPY config/nginx.conf /etc/nginx/nginx.conf
+# Enable Apache mod_rewrite (if needed for .htaccess)
+RUN a2enmod rewrite
 
 # Expose port 80
 EXPOSE 80
 
-# Start PHP-FPM and Nginx
-CMD ["/bin/bash", "-c", "/usr/local/sbin/php-fpm -D && nginx -g 'daemon off;'"]
+# Start Apache in foreground
+CMD ["apache2-foreground"]
