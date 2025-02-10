@@ -3,12 +3,17 @@
   become: true
   vars:
     docker_image: "ruslan0688/simple-js-app-jenkins"
-    image_version: "app_dev_b5760a6"
     container_name: "simple-js-app"
     exposed_port: "80"
     env_file_path: "/home/ec2-user/.env"
+    image_version: "{{ image_version | default('latest') }}"
 
   tasks:
+    - name: Image version
+      debug:
+        msg:
+          - "The image version is {{ image_version }}"
+
     - name: Stop and remove existing container (if running)
       shell: |
         docker ps -q --filter "name={{ container_name }}" | xargs -r docker stop

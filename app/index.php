@@ -82,7 +82,7 @@ $conn->close();
             <?php foreach ($users as $user): ?>
                 <tr>
                     <?php foreach ($columns as $column): ?>
-                        <td><?= htmlspecialchars($user[$column]) ?></td>
+                        <td><?= htmlspecialchars($user[$column] ?? '') ?></td>
                     <?php endforeach; ?>
                 </tr>
             <?php endforeach; ?>

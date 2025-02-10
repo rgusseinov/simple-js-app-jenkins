@@ -1,0 +1,16 @@
+- name: Generate .env file
+  hosts: localhost
+  vars_files:
+    - group_vars/ec2_instance/vault.yml
+  tasks:
+    - name: Template the .env file creation
+      template:
+        src: templates/.env.j2
+        dest: ../app/.env
+        mode: '0644'
+      vars:
+        db_host: "{{ vault_db_host }}"
+        db_port: "{{ vault_db_port }}"
+        db_username: "{{ vault_db_username }}"
+        db_password: "{{ vault_db_password }}"
+        db_database: "{{ vault_db_database }}"
