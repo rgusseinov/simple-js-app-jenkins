@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-account') // ✅ Docker Hub credentials
-        IMAGE_NAME = 'ruslan0688/simple-js-app-jenkins' // Change to your Docker Hub repo
+        IMAGE_NAME = 'ruslan0688/vtiger74-cicd' // Change to your Docker Hub repo
     }
 
     stages {
